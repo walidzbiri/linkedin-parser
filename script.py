@@ -4,17 +4,18 @@ import time
 import getpass
 
 
-# chromeDriverPath = input('Chrome driver path (absolute): ')
 driver = webdriver.Chrome('chromedriver.exe')
 
 def login():
     driver.get("https://www.linkedin.com/login")
     time.sleep(3)
+    
     usernametext = input('Enter your LinkedIn username: ')
     passwordText = getpass.getpass('Enter your LinkedIn password: ')
 
     username = driver.find_element_by_id('username')
     username.send_keys(usernametext)
+    
     password = driver.find_element_by_id('password')
     password.send_keys(passwordText)
 
@@ -23,19 +24,18 @@ def login():
 
 login()
 
-## Get All Links on page
+## Initialize empty lists
 names = []
 descriptions = []
 companies = []
 locations = []
 profile_link = []
 
+## Ask user for inputs
 pageToScrapp = input('Le lien de la page à scrapper: ')
 nbPagesToScrapp = int(input('Combien de pages voulez vous scrappez: '))
 
 
-# first=pageToScrapp.split("&page=")[0]
-# last=pageToScrapp.split("&page=")[1].split("&")[1]
 
 for i in range(1,nbPagesToScrapp+1):
     driver.get(f'{pageToScrapp}&page={i}')
@@ -58,7 +58,7 @@ for i in range(1,nbPagesToScrapp+1):
     print ("Next Page")
 print ("All done !")
 
-#for excel
+#From dataframe to excel
 import pandas as pd
 df = pd.DataFrame(zip(names,descriptions,locations,companies, profile_link), columns=['Name','Description','Location','Company', 'Profile url'])
 nomDuFichier = input('Le nom du fichier excel (sans extension): ')
